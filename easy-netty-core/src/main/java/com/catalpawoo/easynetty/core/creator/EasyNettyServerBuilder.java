@@ -23,7 +23,6 @@ import java.nio.charset.Charset;
  * 服务端基础构造器
  *
  * @author wuzijing
- * @apiNote 服务端基础构造器
  * @since 2024-06-22
  */
 @Slf4j

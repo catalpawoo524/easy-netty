@@ -6,7 +6,6 @@ import java.io.Serializable;
  * 构造器接口类
  *
  * @author wuzijing
- * @apiNote 构造器接口类
  * @since 2024-06-22
  */
 public interface Builder<T> extends Serializable {

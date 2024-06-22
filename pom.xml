@@ -4,39 +4,72 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.catalpawoo.easynetty</groupId>
+    <groupId>io.github.catalpawoo524</groupId>
     <artifactId>easy-netty</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
+
+    <name>easy-netty</name>
+    <description>Netty操作简化工具</description>
+    <url>https://github.com/catalpawoo524/easy-netty</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>catalpawoo</id>
+            <name>Jason Wu</name>
+            <email>catalpawoo524@gmail.com</email>
+            <roles>
+                <role>Project Manager</role>
+                <role>Architect</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>https://github.com/catalpawoo524/easy-netty.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:catalpawoo524/easy-netty.git</developerConnection>
+        <url>https://github.com/catalpawoo524/easy-netty</url>
+    </scm>
+
     <modules>
         <module>easy-netty-core</module>
         <module>easy-netty-common</module>
         <module>easy-netty-spring-boot3-starter</module>
-        <module>easy-netty-dependency</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- 产物JDK版本 -->
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <!-- 当前项目版本 -->
         <revision>1.0.0</revision>
-        <!-- FlattenMaven版本，用于展平项目依赖关系 -->
-        <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
-    </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.catalpawoo.easynetty</groupId>
-                <artifactId>easy-netty-dependency</artifactId>
-                <version>${revision}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <!-- 项目依赖 -->
+        <lombok.version>1.18.28</lombok.version>
+        <slf4j.version>2.0.9</slf4j.version>
+        <netty.version>4.1.92.Final</netty.version>
+        <spring-boot3.version>3.2.1</spring-boot3.version>
+        <spring-boot3-framework.version>6.1.2</spring-boot3-framework.version>
+
+        <!-- FlattenMaven插件版本，用于展平项目依赖关系 -->
+        <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
+        <!-- MavenCentral推送插件版本 -->
+        <central-publishing-maven-plugin.version>0.4.0</central-publishing-maven-plugin.version>
+        <!-- Maven源码解析插件版本 -->
+        <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+        <!-- MavenJava文档插件版本 -->
+        <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
+        <!-- MavenGPG密钥插件版本 -->
+        <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
+    </properties>
 
     <build>
         <pluginManagement>
@@ -48,19 +81,7 @@
             </plugins>
         </pluginManagement>
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-source-plugin</artifactId>-->
-<!--                <version>${apache-maven.version}</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>compile</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>jar-no-fork</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!-- 依赖展平 -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
@@ -83,6 +104,62 @@
                         </goals>
                         <id>flatten.clean</id>
                         <phase>clean</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Maven Central发布 -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>${central-publishing-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>catalpawoo</publishingServerId>
+                    <tokenAuth>true</tokenAuth>
+                </configuration>
+            </plugin>
+            <!-- Source源码解析 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- JavaDoc插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven-gpg-plugin.version}</version>
+                <configuration>
+                    <keyname>Jason Wu</keyname>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

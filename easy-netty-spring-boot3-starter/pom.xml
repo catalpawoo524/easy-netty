@@ -4,32 +4,56 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.catalpawoo.easynetty</groupId>
+        <groupId>io.github.catalpawoo524</groupId>
         <artifactId>easy-netty</artifactId>
         <version>${revision}</version>
     </parent>
 
     <artifactId>easy-netty-spring-boot3-starter</artifactId>
 
+    <description>Netty操作简化工具依赖包</description>
+    <url>https://github.com/catalpawoo524/easy-netty</url>
+    <version>${revision}</version>
+    <developers>
+        <developer>
+            <id>catalpawoo</id>
+            <name>Jason Wu</name>
+            <email>catalpawoo524@gmail.com</email>
+            <roles>
+                <role>Project Manager</role>
+                <role>Architect</role>
+            </roles>
+        </developer>
+    </developers>
+    <scm>
+        <connection>https://github.com/catalpawoo524/easy-netty.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:catalpawoo524/easy-netty.git</developerConnection>
+        <url>https://github.com/catalpawoo524/easy-netty</url>
+    </scm>
+
     <dependencies>
         <dependency>
-            <groupId>com.catalpawoo.easynetty</groupId>
+            <groupId>io.github.catalpawoo524</groupId>
             <artifactId>easy-netty-core</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot3.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot3.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+            <version>${spring-boot3-framework.version}</version>
         </dependency>
     </dependencies>
 

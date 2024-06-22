@@ -14,7 +14,6 @@ import io.netty.handler.stream.ChunkedWriteHandler;
  * 服务端初始化类
  *
  * @author wuzijing
- * @apiNote 服务端初始化类
  * @since 2024-06-21
  */
 public class EasyNettyServerInitializer extends ChannelInitializer<SocketChannel> {

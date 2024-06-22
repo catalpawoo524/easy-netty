@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
  * 服务端创建器
  *
  * @author wuzijing
- * @apiNote 服务端创建器
  * @since 2024-06-18
  */
 @Slf4j

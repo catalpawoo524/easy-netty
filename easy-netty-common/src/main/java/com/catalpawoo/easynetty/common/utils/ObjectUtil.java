@@ -4,7 +4,6 @@ package com.catalpawoo.easynetty.common.utils;
  * 对象工具类
  *
  * @author wuzijing
- * @apiNote 对象工具类
  * @since 2024-06-18
  */
 public class ObjectUtil {

@@ -4,26 +4,49 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.catalpawoo.easynetty</groupId>
+        <groupId>io.github.catalpawoo524</groupId>
         <artifactId>easy-netty</artifactId>
         <version>${revision}</version>
     </parent>
 
     <artifactId>easy-netty-core</artifactId>
 
+    <description>Netty操作简化工具核心包</description>
+    <url>https://github.com/catalpawoo524/easy-netty</url>
+    <version>${revision}</version>
+    <developers>
+        <developer>
+            <id>catalpawoo</id>
+            <name>Jason Wu</name>
+            <email>catalpawoo524@gmail.com</email>
+            <roles>
+                <role>Project Manager</role>
+                <role>Architect</role>
+            </roles>
+        </developer>
+    </developers>
+    <scm>
+        <connection>https://github.com/catalpawoo524/easy-netty.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:catalpawoo524/easy-netty.git</developerConnection>
+        <url>https://github.com/catalpawoo524/easy-netty</url>
+    </scm>
+
     <dependencies>
         <dependency>
-            <groupId>com.catalpawoo.easynetty</groupId>
+            <groupId>io.github.catalpawoo524</groupId>
             <artifactId>easy-netty-common</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
+            <version>${netty.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
 

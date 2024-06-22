@@ -8,8 +8,7 @@ import java.io.Serial;
  * 服务异常类
  *
  * @author wuzijing
- * @apiNote 服务异常类
- * @since 2023-10-15
+ * @since 2024-06-22
  */
 @Getter
 public class EasyNettyException extends RuntimeException {

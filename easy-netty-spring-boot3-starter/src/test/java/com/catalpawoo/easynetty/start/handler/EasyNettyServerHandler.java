@@ -14,7 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * Easy-Netty服务端自定义请求处理类
  *
  * @author wuzijing
- * @apiNote Easy-Netty服务端自定义请求处理类
  * @since 2024-06-22
  */
 @Slf4j
@@ -39,9 +38,7 @@ public class EasyNettyServerHandler extends SimpleChannelInboundHandler<TextWebS
 
     @Override
     public void userEventTriggered(ChannelHandlerContext channelHandlerContext, Object event) {
-        if (event instanceof WebSocketServerProtocolHandler.HandshakeComplete complete) {
-            log.info("easy-netty hand shake.");
-        }
+        log.info("easy-netty trigger: {}", event);
     }
 
     @Override
