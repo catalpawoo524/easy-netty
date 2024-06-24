@@ -13,6 +13,18 @@
 
     <description>Netty操作简化工具常量包</description>
     <url>https://github.com/catalpawoo524/easy-netty</url>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>14</source>
+                    <target>14</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <version>${revision}</version>
     <developers>
         <developer>

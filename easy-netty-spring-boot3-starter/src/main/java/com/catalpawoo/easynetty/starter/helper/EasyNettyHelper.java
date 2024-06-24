@@ -1,4 +1,4 @@
-package com.catalpawoo.easynetty.starter.handler;
+package com.catalpawoo.easynetty.starter.helper;
 
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
 import com.catalpawoo.easynetty.core.creator.EasyNettyServerCreator;
@@ -11,7 +11,6 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -19,14 +18,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Easy-Netty处理类
+ * 快速开始帮助类
  *
  * @author wuzijing
  * @since 2024-06-22
  */
 @Slf4j
-@Configuration
-public class EasyNettyHandler {
+public class EasyNettyHelper {
 
     /**
      * 服务端集合
@@ -37,13 +35,13 @@ public class EasyNettyHandler {
      * 启动服务端
      *
      * @param simpleChannelInboundHandler 自定义处理方法
-     * @param websocketPath               请求路径
-     * @param nettyPort                   端口号
+     * @param path                        请求路径
+     * @param port                        端口号
      * @param bossThreadNum               主线程组数量
      * @return 连接ID
      */
-    public ChannelId startNettyServer(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String websocketPath, Integer nettyPort, Integer bossThreadNum) {
-        EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(simpleChannelInboundHandler, websocketPath, nettyPort, bossThreadNum);
+    public ChannelId startNettyServer(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String path, Integer port, Integer bossThreadNum) {
+        EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(simpleChannelInboundHandler, path, port, bossThreadNum);
         Channel channel = serverCreator.getChannel();
         this.serverCreatorMap.put(channel.id(), serverCreator);
         return channel.id();
@@ -52,13 +50,13 @@ public class EasyNettyHandler {
     /**
      * 启动服务端
      *
-     * @param nettyPort                  端口号
+     * @param port                       端口号
      * @param bossThreadNum              主线程组数量
      * @param easyNettyServerInitializer 服务初始化类
      * @return 连接ID
      */
-    public ChannelId startNettyServer(Integer nettyPort, Integer bossThreadNum, EasyNettyServerInitializer easyNettyServerInitializer) {
-        EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(nettyPort, bossThreadNum, easyNettyServerInitializer);
+    public ChannelId startNettyServer(Integer port, Integer bossThreadNum, EasyNettyServerInitializer easyNettyServerInitializer) {
+        EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(port, bossThreadNum, easyNettyServerInitializer);
         Channel channel = serverCreator.getChannel();
         this.serverCreatorMap.put(channel.id(), serverCreator);
         return channel.id();
@@ -67,13 +65,13 @@ public class EasyNettyHandler {
     /**
      * 启动服务端
      *
-     * @param nettyPort       端口号
+     * @param port            端口号
      * @param bossThreadNum   主线程组数量
      * @param serverBootstrap 服务端启动器
      * @return 连接ID
      */
-    public ChannelId startNettyServer(Integer nettyPort, Integer bossThreadNum, ServerBootstrap serverBootstrap) {
-        EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(nettyPort, bossThreadNum, serverBootstrap);
+    public ChannelId startNettyServer(Integer port, Integer bossThreadNum, ServerBootstrap serverBootstrap) {
+        EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(port, bossThreadNum, serverBootstrap);
         Channel channel = serverCreator.getChannel();
         this.serverCreatorMap.put(channel.id(), serverCreator);
         return channel.id();

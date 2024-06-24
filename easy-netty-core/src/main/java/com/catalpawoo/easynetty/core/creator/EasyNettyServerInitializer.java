@@ -26,17 +26,17 @@ public class EasyNettyServerInitializer extends ChannelInitializer<SocketChannel
     /**
      * 请求路径
      */
-    private final String websocketPath;
+    private final String path;
 
     /**
      * 构造方法
      *
      * @param simpleChannelInboundHandler 自定义处理方法
-     * @param websocketPath               请求路径
+     * @param path               请求路径
      */
-    public EasyNettyServerInitializer(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String websocketPath) {
+    public EasyNettyServerInitializer(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String path) {
         this.simpleChannelInboundHandler = simpleChannelInboundHandler;
-        this.websocketPath = websocketPath;
+        this.path = path;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class EasyNettyServerInitializer extends ChannelInitializer<SocketChannel
         // 聚合HttpMessage支持
         channelPipeline.addLast(new HttpObjectAggregator(1024 * 64));
         // 请求动作
-        channelPipeline.addLast(new WebSocketServerProtocolHandler(websocketPath, null, true, 65536, true, true, 10000L));
+        channelPipeline.addLast(new WebSocketServerProtocolHandler(path, null, true, 65536, true, true, 10000L));
         // 自定义处理方法
         if (ObjectUtil.isNotNull(this.simpleChannelInboundHandler)) {
             channelPipeline.addLast(simpleChannelInboundHandler);

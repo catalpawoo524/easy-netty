@@ -9,6 +9,11 @@ package com.catalpawoo.easynetty.common.constants;
 public class IntegerConstant {
 
     /**
+     * 0
+     */
+    public static final Integer ZERO = 0;
+
+    /**
      * 1024
      */
     public static final Integer ONE_THOUSAND_TWENTY_FOUR = 1024;

@@ -41,12 +41,12 @@ public class EasyNettyServerCreator {
      * 构造方法
      *
      * @param simpleChannelInboundHandler 自定义处理方法
-     * @param websocketPath               请求路径
-     * @param nettyPort                   端口号
+     * @param path                        请求路径
+     * @param port                        端口号
      * @param bossThreadNum               主线程组数量
      */
-    public EasyNettyServerCreator(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String websocketPath, Integer nettyPort, Integer bossThreadNum) {
-        if (ObjectUtil.isNull(nettyPort) || ObjectUtil.isNull(bossThreadNum)) {
+    public EasyNettyServerCreator(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String path, Integer port, Integer bossThreadNum) {
+        if (ObjectUtil.isNull(port) || ObjectUtil.isNull(bossThreadNum)) {
             // 参数缺失
             throw new EasyNettyException("easy-netty server fail to start, the input parameters are missing.");
         }
@@ -60,34 +60,34 @@ public class EasyNettyServerCreator {
                 // 快速复用，防止服务端重启端口占用
                 .option(ChannelOption.SO_REUSEADDR, true)
                 // 自定义处理方法
-                .childHandler(new EasyNettyServerInitializer(simpleChannelInboundHandler, websocketPath))
+                .childHandler(new EasyNettyServerInitializer(simpleChannelInboundHandler, path))
                 // 低延迟
                 .childOption(ChannelOption.TCP_NODELAY, true);
         // 绑定端口号
         ChannelFuture channelFuture;
         try {
-            channelFuture = serverBootstrap.bind(nettyPort).sync();
+            channelFuture = serverBootstrap.bind(port).sync();
             channel = channelFuture.sync().channel();
         } catch (Exception error) {
-            log.error("easy-netty server startup failed, port number binding exception, parameters: port={}，bossThreadNum={}.", nettyPort, bossThreadNum);
+            log.error("easy-netty server startup failed, port number binding exception, parameters: port={}，bossThreadNum={}.", port, bossThreadNum);
             throw new EasyNettyException("easy-netty server startup failed, port number binding exception.");
         }
         if (!channelFuture.isSuccess()) {
-            log.error("easy-netty server startup failed, port number binding failed，parameters: port={}，bossThreadNum={}", nettyPort, bossThreadNum);
+            log.error("easy-netty server startup failed, port number binding failed，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
             throw new EasyNettyException("easy-netty server startup failed, port number binding failed.");
         }
-        log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", nettyPort, bossThreadNum);
+        log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
     }
 
     /**
      * 构造方法
      *
-     * @param nettyPort                   端口号
-     * @param bossThreadNum               主线程组数量
-     * @param easyNettyServerInitializer  服务初始化类
+     * @param port                       端口号
+     * @param bossThreadNum              主线程组数量
+     * @param easyNettyServerInitializer 服务初始化类
      */
-    public EasyNettyServerCreator(Integer nettyPort, Integer bossThreadNum, EasyNettyServerInitializer easyNettyServerInitializer) {
-        if (ObjectUtil.isNull(nettyPort) || ObjectUtil.isNull(bossThreadNum)) {
+    public EasyNettyServerCreator(Integer port, Integer bossThreadNum, EasyNettyServerInitializer easyNettyServerInitializer) {
+        if (ObjectUtil.isNull(port) || ObjectUtil.isNull(bossThreadNum)) {
             // 参数缺失
             throw new EasyNettyException("easy-netty server fail to start, the input parameters are missing.");
         }
@@ -107,28 +107,28 @@ public class EasyNettyServerCreator {
         // 绑定端口号
         ChannelFuture channelFuture;
         try {
-            channelFuture = serverBootstrap.bind(nettyPort).sync();
+            channelFuture = serverBootstrap.bind(port).sync();
             channel = channelFuture.sync().channel();
         } catch (Exception error) {
-            log.error("easy-netty server startup failed, port number binding exception, parameters: port={}，bossThreadNum={}.", nettyPort, bossThreadNum);
+            log.error("easy-netty server startup failed, port number binding exception, parameters: port={}，bossThreadNum={}.", port, bossThreadNum);
             throw new EasyNettyException("easy-netty server startup failed, port number binding exception.");
         }
         if (!channelFuture.isSuccess()) {
-            log.error("easy-netty server startup failed, port number binding failed，parameters: port={}，bossThreadNum={}", nettyPort, bossThreadNum);
+            log.error("easy-netty server startup failed, port number binding failed，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
             throw new EasyNettyException("easy-netty server startup failed, port number binding failed.");
         }
-        log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", nettyPort, bossThreadNum);
+        log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
     }
 
     /**
      * 构造方法
      *
-     * @param nettyPort                   端口号
-     * @param bossThreadNum               主线程组数量
-     * @param serverBootstrap             Netty服务端启动器
+     * @param port            端口号
+     * @param bossThreadNum   主线程组数量
+     * @param serverBootstrap Netty服务端启动器
      */
-    public EasyNettyServerCreator(Integer nettyPort, Integer bossThreadNum, ServerBootstrap serverBootstrap) {
-        if (ObjectUtil.isNull(nettyPort) || ObjectUtil.isNull(bossThreadNum)) {
+    public EasyNettyServerCreator(Integer port, Integer bossThreadNum, ServerBootstrap serverBootstrap) {
+        if (ObjectUtil.isNull(port) || ObjectUtil.isNull(bossThreadNum)) {
             // 参数缺失
             throw new EasyNettyException("easy-netty server fail to start, the input parameters are missing.");
         }
@@ -137,17 +137,17 @@ public class EasyNettyServerCreator {
         // 绑定端口号
         ChannelFuture channelFuture;
         try {
-            channelFuture = serverBootstrap.bind(nettyPort).sync();
+            channelFuture = serverBootstrap.bind(port).sync();
             channel = channelFuture.sync().channel();
         } catch (Exception error) {
-            log.error("easy-netty server startup failed, port number binding exception, parameters: port={}，bossThreadNum={}.", nettyPort, bossThreadNum);
+            log.error("easy-netty server startup failed, port number binding exception, parameters: port={}，bossThreadNum={}.", port, bossThreadNum);
             throw new EasyNettyException("easy-netty server startup failed, port number binding exception.");
         }
         if (!channelFuture.isSuccess()) {
-            log.error("easy-netty server startup failed, port number binding failed，parameters: port={}，bossThreadNum={}", nettyPort, bossThreadNum);
+            log.error("easy-netty server startup failed, port number binding failed，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
             throw new EasyNettyException("easy-netty server startup failed, port number binding failed.");
         }
-        log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", nettyPort, bossThreadNum);
+        log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
     }
 
     /**
