@@ -50,7 +50,7 @@
         <!-- 产物JDK版本 -->
         <java.version>17</java.version>
         <!-- 当前项目版本 -->
-        <revision>1.0.0</revision>
+        <revision>1.1.0</revision>
 
         <!-- 项目依赖 -->
         <lombok.version>1.18.28</lombok.version>
