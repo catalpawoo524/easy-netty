@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 基础Easy-Netty服务端自定义请求处理类
+ * 基础服务端自定义请求处理类
  *
  * @author wuzijing
  * @since 2024-06-22
