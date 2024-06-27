@@ -1,6 +1,6 @@
 package com.catalpawoo.easynetty.starter.configuration;
 
-import com.catalpawoo.easynetty.starter.annotation.EasyNettyServerAnnotationProcessor;
+import com.catalpawoo.easynetty.starter.annotation.processor.EasyNettyServerAnnotationProcessor;
 import com.catalpawoo.easynetty.starter.helper.EasyNettyHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

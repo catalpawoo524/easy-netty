@@ -1,6 +1,7 @@
-package com.catalpawoo.easynetty.starter.annotation;
+package com.catalpawoo.easynetty.starter.annotation.processor;
 
-import com.catalpawoo.easynetty.core.aop.*;
+import com.catalpawoo.easynetty.annotation.*;
+import com.catalpawoo.easynetty.starter.annotation.EasyNettyServerAnnotationHandler;
 import com.catalpawoo.easynetty.starter.helper.EasyNettyHelper;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class EasyNettyServerAnnotationProcessor implements BeanPostProcessor {
      * @param removeMethod  移除连接方法
      */
     private void initializeServer(EnServer enServer, Object serverDO, Method readMethod, Method addMethod, Method triggerMethod, Method removeMethod) {
-        easyNettyHelper.startNettyServer(new EasyNettyServerAnnotationHandler(serverDO, readMethod, addMethod, triggerMethod, removeMethod), enServer.path(), enServer.port(), enServer.bossThreadNum());
+        easyNettyHelper.startServer(new EasyNettyServerAnnotationHandler(serverDO, readMethod, addMethod, triggerMethod, removeMethod), enServer.path(), enServer.port(), enServer.bossThreadNum());
     }
 
 }

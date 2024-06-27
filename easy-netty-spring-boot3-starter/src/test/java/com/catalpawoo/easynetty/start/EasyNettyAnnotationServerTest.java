@@ -1,7 +1,7 @@
 package com.catalpawoo.easynetty.start;
 
-import com.catalpawoo.easynetty.core.creator.EasyNettyServerBuilder;
-import com.catalpawoo.easynetty.core.creator.EasyNettyServerCreator;
+import com.catalpawoo.easynetty.core.EasyNettyServerBuilder;
+import com.catalpawoo.easynetty.core.EasyNettyServerCreator;
 import com.catalpawoo.easynetty.start.handler.EasyNettyServerBaseHandler;
 import com.catalpawoo.easynetty.starter.helper.EasyNettyHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class EasyNettyAnnotationServerTest implements DisposableBean {
     @Test
     public void testEasyNettyServer() {
         // 帮助类快速构建
-        easyNettyHelper.startNettyServer(easyNettyServerBaseHandler, "/socket", 8082, 1).asShortText();
+        easyNettyHelper.startServer(easyNettyServerBaseHandler, "/socket", 8082, 1).asShortText();
         // 构造器构建
         EasyNettyServerCreator buildCreator = new EasyNettyServerBuilder()
                 .setPort(8083)
@@ -44,7 +44,7 @@ public class EasyNettyAnnotationServerTest implements DisposableBean {
 
     @Override
     public void destroy() {
-        int num = easyNettyHelper.shutdownNettyServer();
+        int num = easyNettyHelper.shutdownServer();
         log.info("easy-netty destroyed quantity: {}", num);
     }
 

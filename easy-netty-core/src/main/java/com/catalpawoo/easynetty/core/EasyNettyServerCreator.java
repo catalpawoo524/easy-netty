@@ -1,4 +1,4 @@
-package com.catalpawoo.easynetty.core.creator;
+package com.catalpawoo.easynetty.core;
 
 import com.catalpawoo.easynetty.common.constants.IntegerConstant;
 import com.catalpawoo.easynetty.common.exceptions.EasyNettyException;

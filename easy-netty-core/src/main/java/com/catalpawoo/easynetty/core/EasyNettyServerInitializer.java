@@ -1,4 +1,4 @@
-package com.catalpawoo.easynetty.core.creator;
+package com.catalpawoo.easynetty.core;
 
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
 import io.netty.channel.ChannelInitializer;

@@ -1,24 +1,10 @@
-package com.catalpawoo.easynetty.core.creator;
+package com.catalpawoo.easynetty.core;
 
 import com.catalpawoo.easynetty.common.builder.Builder;
-import com.catalpawoo.easynetty.common.constants.IntegerConstant;
-import com.catalpawoo.easynetty.common.exceptions.EasyNettyException;
-import com.catalpawoo.easynetty.common.utils.ObjectUtil;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
-import java.net.URI;
-import java.nio.charset.Charset;
 
 /**
  * 服务端基础构造器

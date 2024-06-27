@@ -9,9 +9,9 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>easy-netty-core</artifactId>
+    <artifactId>easy-netty-annotation</artifactId>
 
-    <description>Netty操作简化工具核心包</description>
+    <description>Netty操作简化工具注解包</description>
     <url>https://github.com/catalpawoo524/easy-netty</url>
     <version>${revision}</version>
     <developers>
@@ -33,26 +33,33 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.catalpawoo524</groupId>
-            <artifactId>easy-netty-common</artifactId>
-            <version>${revision}</version>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax-annotation.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.github.catalpawoo524</groupId>
-            <artifactId>easy-netty-annotation</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>${netty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>${google-findbugs.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Processor先编译后使用，单独区分模块以排除对Slf4j与Lombok的处理器产生的影响 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <proc>none</proc>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

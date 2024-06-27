@@ -1,8 +1,8 @@
 package com.catalpawoo.easynetty.starter.helper;
 
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
-import com.catalpawoo.easynetty.core.creator.EasyNettyServerCreator;
-import com.catalpawoo.easynetty.core.creator.EasyNettyServerInitializer;
+import com.catalpawoo.easynetty.core.EasyNettyServerCreator;
+import com.catalpawoo.easynetty.core.EasyNettyServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 快速开始帮助类
- *
+ * TODO: 升级更加严格的编译纠错
  * @author wuzijing
  * @since 2024-06-22
  */
@@ -40,7 +40,7 @@ public class EasyNettyHelper {
      * @param bossThreadNum               主线程组数量
      * @return 连接ID
      */
-    public ChannelId startNettyServer(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String path, Integer port, Integer bossThreadNum) {
+    public ChannelId startServer(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String path, Integer port, Integer bossThreadNum) {
         EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(simpleChannelInboundHandler, path, port, bossThreadNum);
         Channel channel = serverCreator.getChannel();
         this.serverCreatorMap.put(channel.id(), serverCreator);
@@ -55,7 +55,7 @@ public class EasyNettyHelper {
      * @param easyNettyServerInitializer 服务初始化类
      * @return 连接ID
      */
-    public ChannelId startNettyServer(Integer port, Integer bossThreadNum, EasyNettyServerInitializer easyNettyServerInitializer) {
+    public ChannelId startServer(Integer port, Integer bossThreadNum, EasyNettyServerInitializer easyNettyServerInitializer) {
         EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(port, bossThreadNum, easyNettyServerInitializer);
         Channel channel = serverCreator.getChannel();
         this.serverCreatorMap.put(channel.id(), serverCreator);
@@ -70,7 +70,7 @@ public class EasyNettyHelper {
      * @param serverBootstrap 服务端启动器
      * @return 连接ID
      */
-    public ChannelId startNettyServer(Integer port, Integer bossThreadNum, ServerBootstrap serverBootstrap) {
+    public ChannelId startServer(Integer port, Integer bossThreadNum, ServerBootstrap serverBootstrap) {
         EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(port, bossThreadNum, serverBootstrap);
         Channel channel = serverCreator.getChannel();
         this.serverCreatorMap.put(channel.id(), serverCreator);
@@ -83,7 +83,7 @@ public class EasyNettyHelper {
      * @param channelId 连接ID
      * @return 停止结果（true：成功，false：失败）
      */
-    public boolean shutdownNettyServer(ChannelId channelId) {
+    public boolean shutdownServer(ChannelId channelId) {
         if (!this.serverCreatorMap.containsKey(channelId)) {
             log.error("easy-netty server failed to stop, connection ID does not exist.");
             return false;
@@ -98,7 +98,8 @@ public class EasyNettyHelper {
      *
      * @return 停止数量
      */
-    public int shutdownNettyServer() {
+    public int shutdownServer() {
+        // TODO: 后续可以主动扫描Spring管理的所有Server，统一销毁
         ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
         // 关闭连接与线程组
         this.serverCreatorMap.forEach(((channelId, serverCreator) -> {

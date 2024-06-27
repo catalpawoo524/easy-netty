@@ -1,0 +1,4 @@
+com.catalpawoo.easynetty.annotation.processor.EnAddProcessor
+com.catalpawoo.easynetty.annotation.processor.EnEventTriggerProcessor
+com.catalpawoo.easynetty.annotation.processor.EnReadProcessor
+com.catalpawoo.easynetty.annotation.processor.EnRemoveProcessor
