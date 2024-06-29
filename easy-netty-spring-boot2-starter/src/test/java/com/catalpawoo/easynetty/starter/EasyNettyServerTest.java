@@ -1,9 +1,9 @@
-package com.catalpawoo.easynetty.start;
+package com.catalpawoo.easynetty.starter;
 
 import com.catalpawoo.easynetty.core.EasyNettyServerBuilder;
 import com.catalpawoo.easynetty.core.EasyNettyServerCreator;
-import com.catalpawoo.easynetty.start.handler.EasyNettyServerBaseHandler;
-import com.catalpawoo.easynetty.starter.helper.EasyNettyHelper;
+import com.catalpawoo.easynetty.core.helper.EasyNettyHelper;
+import com.catalpawoo.easynetty.starter.handler.EasyNettyServerBaseHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.DisposableBean;
@@ -18,7 +18,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  * Easy-Netty服务端测试类
  *
  * @author wuzijing
- * @since 2024-06-22
+ * @since 2024-06-29
  */
 @Slf4j
 @SpringBootTest(classes = EasyNettyServerApplication.class, webEnvironment = RANDOM_PORT)

@@ -9,9 +9,9 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>easy-netty-spring</artifactId>
+    <artifactId>easy-netty-spring-boot2-starter</artifactId>
 
-    <description>Netty操作简化工具Spring兼容包</description>
+    <description>Netty操作简化工具SpringBoot2启动包</description>
     <url>https://github.com/catalpawoo524/easy-netty</url>
     <version>${revision}</version>
     <developers>
@@ -34,10 +34,22 @@
     <dependencies>
         <dependency>
             <groupId>io.github.catalpawoo524</groupId>
-            <artifactId>easy-netty-common</artifactId>
+            <artifactId>easy-netty-core</artifactId>
             <version>${revision}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot2.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot2.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>

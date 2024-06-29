@@ -41,9 +41,10 @@
     <modules>
         <module>easy-netty-core</module>
         <module>easy-netty-common</module>
-        <module>easy-netty-spring-boot3-starter</module>
         <module>easy-netty-annotation</module>
         <module>easy-netty-spring</module>
+        <module>easy-netty-spring-boot2-starter</module>
+        <module>easy-netty-spring-boot3-starter</module>
     </modules>
 
     <properties>
@@ -56,10 +57,12 @@
 
         <!-- 项目依赖 -->
         <lombok.version>1.18.28</lombok.version>
-        <slf4j.version>2.0.9</slf4j.version>
+        <slf4j.version>1.7.36</slf4j.version>
         <netty.version>4.1.92.Final</netty.version>
         <spring-boot3.version>3.2.1</spring-boot3.version>
         <spring-boot3-framework.version>6.1.2</spring-boot3-framework.version>
+        <spring-boot2.version>2.7.18</spring-boot2.version>
+        <spring-boot2-framework.version>5.3.31</spring-boot2-framework.version>
         <javax-annotation.version>1.3.2</javax-annotation.version>
         <google-findbugs.version>3.0.2</google-findbugs.version>
 

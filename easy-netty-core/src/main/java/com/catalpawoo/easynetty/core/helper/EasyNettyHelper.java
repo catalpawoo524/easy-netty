@@ -1,4 +1,4 @@
-package com.catalpawoo.easynetty.starter.helper;
+package com.catalpawoo.easynetty.core.helper;
 
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
 import com.catalpawoo.easynetty.core.EasyNettyServerCreator;

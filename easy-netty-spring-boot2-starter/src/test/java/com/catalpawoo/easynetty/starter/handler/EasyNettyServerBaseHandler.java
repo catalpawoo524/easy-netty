@@ -1,4 +1,4 @@
-package com.catalpawoo.easynetty.start.handler;
+package com.catalpawoo.easynetty.starter.handler;
 
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
 import io.netty.channel.*;

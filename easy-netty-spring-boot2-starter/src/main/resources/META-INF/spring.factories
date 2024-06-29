@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.catalpawoo.easynetty.starter.configuration.EasyNettyConfiguration,\
+com.catalpawoo.easynetty.spring.configuration.EasyNettySpringConfiguration

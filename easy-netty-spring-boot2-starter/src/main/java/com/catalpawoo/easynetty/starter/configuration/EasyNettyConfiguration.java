@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * 项目配置类
  *
  * @author wuzijing
- * @since 2024-06-24
+ * @since 2024-06-29
  */
 @Configuration
 public class EasyNettyConfiguration {

@@ -1,4 +1,4 @@
-package com.catalpawoo.easynetty.starter.annotation;
+package com.catalpawoo.easynetty.core.annotation;
 
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
 import io.netty.channel.*;

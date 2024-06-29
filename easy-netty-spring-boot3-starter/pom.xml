@@ -11,7 +11,7 @@
 
     <artifactId>easy-netty-spring-boot3-starter</artifactId>
 
-    <description>Netty操作简化工具依赖包</description>
+    <description>Netty操作简化工具SpringBoot3启动包</description>
     <url>https://github.com/catalpawoo524/easy-netty</url>
     <version>${revision}</version>
     <developers>

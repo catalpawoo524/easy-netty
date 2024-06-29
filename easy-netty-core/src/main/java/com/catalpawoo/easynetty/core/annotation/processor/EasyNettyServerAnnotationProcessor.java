@@ -1,8 +1,8 @@
-package com.catalpawoo.easynetty.starter.annotation.processor;
+package com.catalpawoo.easynetty.core.annotation.processor;
 
 import com.catalpawoo.easynetty.annotation.*;
-import com.catalpawoo.easynetty.starter.annotation.EasyNettyServerAnnotationHandler;
-import com.catalpawoo.easynetty.starter.helper.EasyNettyHelper;
+import com.catalpawoo.easynetty.core.annotation.EasyNettyServerAnnotationHandler;
+import com.catalpawoo.easynetty.core.helper.EasyNettyHelper;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
