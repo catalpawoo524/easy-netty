@@ -43,6 +43,7 @@
         <module>easy-netty-common</module>
         <module>easy-netty-spring-boot3-starter</module>
         <module>easy-netty-annotation</module>
+        <module>easy-netty-spring</module>
     </modules>
 
     <properties>

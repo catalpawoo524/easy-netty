@@ -16,10 +16,13 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 /**
  * Easy-Netty服务端测试类
+ *
+ * @author wuzijing
+ * @since 2024-06-22
  */
 @Slf4j
 @SpringBootTest(classes = EasyNettyServerApplication.class, webEnvironment = RANDOM_PORT)
-public class EasyNettyAnnotationServerTest implements DisposableBean {
+public class EasyNettyServerTest implements DisposableBean {
 
     @Autowired
     private EasyNettyHelper easyNettyHelper;
@@ -28,7 +31,7 @@ public class EasyNettyAnnotationServerTest implements DisposableBean {
     private EasyNettyServerBaseHandler easyNettyServerBaseHandler;
 
     @Test
-    public void testEasyNettyServer() {
+    public void testCreateEasyNettyServer() {
         // 帮助类快速构建
         easyNettyHelper.startServer(easyNettyServerBaseHandler, "/socket", 8082, 1).asShortText();
         // 构造器构建
@@ -38,8 +41,6 @@ public class EasyNettyAnnotationServerTest implements DisposableBean {
                 .setBossThreadNum(1)
                 .setHandler(new EasyNettyServerBaseHandler())
                 .build();
-        // 维护到帮助类中
-        easyNettyHelper.putServer(buildCreator);
     }
 
     @Override

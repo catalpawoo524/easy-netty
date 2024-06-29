@@ -3,6 +3,7 @@ package com.catalpawoo.easynetty.starter.helper;
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
 import com.catalpawoo.easynetty.core.EasyNettyServerCreator;
 import com.catalpawoo.easynetty.core.EasyNettyServerInitializer;
+import com.catalpawoo.easynetty.core.events.EnServerCreateEvent;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
@@ -11,10 +12,10 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -32,6 +33,27 @@ public class EasyNettyHelper {
     private final Map<ChannelId, EasyNettyServerCreator> serverCreatorMap = new ConcurrentHashMap<>();
 
     /**
+     * 服务端创建事件监听
+     *
+     * @param event 服务端创建事件
+     */
+    @Async
+    @EventListener(EnServerCreateEvent.class)
+    protected void serverCreateListener(EnServerCreateEvent event) {
+        log.info("easy-netty listen to the server creation event.");
+        if (ObjectUtil.isNull(event)) {
+            return;
+        }
+        if (event.getSource() instanceof EasyNettyServerCreator creator) {
+            Channel channel = creator.getChannel();
+            if (ObjectUtil.isNull(channel)) {
+                return;
+            }
+            serverCreatorMap.put(channel.id(), creator);
+        }
+    }
+
+    /**
      * 启动服务端
      *
      * @param simpleChannelInboundHandler 自定义处理方法
@@ -43,7 +65,6 @@ public class EasyNettyHelper {
     public ChannelId startServer(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String path, Integer port, Integer bossThreadNum) {
         EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(simpleChannelInboundHandler, path, port, bossThreadNum);
         Channel channel = serverCreator.getChannel();
-        this.serverCreatorMap.put(channel.id(), serverCreator);
         return channel.id();
     }
 
@@ -58,7 +79,6 @@ public class EasyNettyHelper {
     public ChannelId startServer(Integer port, Integer bossThreadNum, EasyNettyServerInitializer easyNettyServerInitializer) {
         EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(port, bossThreadNum, easyNettyServerInitializer);
         Channel channel = serverCreator.getChannel();
-        this.serverCreatorMap.put(channel.id(), serverCreator);
         return channel.id();
     }
 
@@ -73,7 +93,6 @@ public class EasyNettyHelper {
     public ChannelId startServer(Integer port, Integer bossThreadNum, ServerBootstrap serverBootstrap) {
         EasyNettyServerCreator serverCreator = new EasyNettyServerCreator(port, bossThreadNum, serverBootstrap);
         Channel channel = serverCreator.getChannel();
-        this.serverCreatorMap.put(channel.id(), serverCreator);
         return channel.id();
     }
 
@@ -116,21 +135,6 @@ public class EasyNettyHelper {
         }));
         closeIdSet.forEach(this.serverCreatorMap::remove);
         return closeIdSet.size();
-    }
-
-    /**
-     * 存入主动构造的服务端
-     *
-     * @param easyNettyServerCreator 服务端创建器
-     * @return 连接ID
-     */
-    public ChannelId putServer(EasyNettyServerCreator easyNettyServerCreator) {
-        if (ObjectUtil.isNull(easyNettyServerCreator)) {
-            return null;
-        }
-        ChannelId channelId = easyNettyServerCreator.getChannel().id();
-        this.serverCreatorMap.put(channelId, easyNettyServerCreator);
-        return channelId;
     }
 
 }

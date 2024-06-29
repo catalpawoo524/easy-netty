@@ -3,6 +3,8 @@ package com.catalpawoo.easynetty.core;
 import com.catalpawoo.easynetty.common.constants.IntegerConstant;
 import com.catalpawoo.easynetty.common.exceptions.EasyNettyException;
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
+import com.catalpawoo.easynetty.core.events.EnServerCreateEvent;
+import com.catalpawoo.easynetty.spring.utils.SpringUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -77,6 +79,7 @@ public class EasyNettyServerCreator {
             throw new EasyNettyException("easy-netty server startup failed, port number binding failed.");
         }
         log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
+        SpringUtil.publishEvent(new EnServerCreateEvent(this));
     }
 
     /**
@@ -118,6 +121,7 @@ public class EasyNettyServerCreator {
             throw new EasyNettyException("easy-netty server startup failed, port number binding failed.");
         }
         log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
+        SpringUtil.publishEvent(new EnServerCreateEvent(this));
     }
 
     /**
@@ -148,6 +152,7 @@ public class EasyNettyServerCreator {
             throw new EasyNettyException("easy-netty server startup failed, port number binding failed.");
         }
         log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
+        SpringUtil.publishEvent(new EnServerCreateEvent(this));
     }
 
     /**
