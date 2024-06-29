@@ -44,7 +44,8 @@ public class EasyNettyHelper {
         if (ObjectUtil.isNull(event)) {
             return;
         }
-        if (event.getSource() instanceof EasyNettyServerCreator creator) {
+        if (event.getSource() instanceof EasyNettyServerCreator) {
+            EasyNettyServerCreator creator = (EasyNettyServerCreator) event.getSource();
             Channel channel = creator.getChannel();
             if (ObjectUtil.isNull(channel)) {
                 return;

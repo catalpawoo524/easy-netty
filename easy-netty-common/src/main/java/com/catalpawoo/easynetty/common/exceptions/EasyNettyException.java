@@ -2,8 +2,6 @@ package com.catalpawoo.easynetty.common.exceptions;
 
 import lombok.Getter;
 
-import java.io.Serial;
-
 /**
  * 服务异常类
  *
@@ -13,7 +11,6 @@ import java.io.Serial;
 @Getter
 public class EasyNettyException extends RuntimeException {
 
-    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

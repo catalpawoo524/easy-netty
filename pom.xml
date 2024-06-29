@@ -50,7 +50,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- 产物JDK版本 -->
-        <java.version>17</java.version>
+        <java.version>8</java.version>
         <!-- 当前项目版本 -->
         <revision>1.1.0</revision>
 
@@ -177,7 +177,6 @@
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
-                    <!-- TODO: 尝试降低输出版本 -->
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
