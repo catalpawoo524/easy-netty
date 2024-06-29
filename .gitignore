@@ -36,6 +36,4 @@ build/
 ### Mac OS ###
 .DS_Store
 /.flattened-pom.xml
-/easy-netty-spring-boot3-starter/.flattened-pom.xml
-/easy-netty-core/.flattened-pom.xml
-/easy-netty-common/.flattened-pom.xml
+/**/.flattened-pom.xml
