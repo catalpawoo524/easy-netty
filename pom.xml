@@ -57,7 +57,8 @@
 
         <!-- 项目依赖 -->
         <lombok.version>1.18.28</lombok.version>
-        <slf4j.version>1.7.36</slf4j.version>
+        <slf4j-springboot2.version>1.7.36</slf4j-springboot2.version>
+        <slf4j-springboot3.version>2.0.9</slf4j-springboot3.version>
         <netty.version>4.1.92.Final</netty.version>
         <spring-boot3.version>3.2.1</spring-boot3.version>
         <spring-boot3-framework.version>6.1.2</spring-boot3-framework.version>

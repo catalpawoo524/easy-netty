@@ -55,6 +55,11 @@
             <artifactId>spring-context</artifactId>
             <version>${spring-boot3-framework.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-springboot3.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
