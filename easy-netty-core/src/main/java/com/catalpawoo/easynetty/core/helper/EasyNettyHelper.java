@@ -1,6 +1,7 @@
 package com.catalpawoo.easynetty.core.helper;
 
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
+import com.catalpawoo.easynetty.core.AbstractEasyNettyServer;
 import com.catalpawoo.easynetty.core.EasyNettyServerCreator;
 import com.catalpawoo.easynetty.core.EasyNettyServerInitializer;
 import com.catalpawoo.easynetty.core.events.EnServerCreateEvent;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 快速开始帮助类
- * TODO: 升级更加严格的编译纠错
+ *
  * @author wuzijing
  * @since 2024-06-22
  */
@@ -30,7 +31,7 @@ public class EasyNettyHelper {
     /**
      * 服务端集合
      */
-    private final Map<ChannelId, EasyNettyServerCreator> serverCreatorMap = new ConcurrentHashMap<>();
+    private final Map<ChannelId, AbstractEasyNettyServer> serverCreatorMap = new ConcurrentHashMap<>();
 
     /**
      * 服务端创建事件监听
@@ -44,8 +45,8 @@ public class EasyNettyHelper {
         if (ObjectUtil.isNull(event)) {
             return;
         }
-        if (event.getSource() instanceof EasyNettyServerCreator) {
-            EasyNettyServerCreator creator = (EasyNettyServerCreator) event.getSource();
+        if (event.getSource() instanceof AbstractEasyNettyServer) {
+            AbstractEasyNettyServer creator = (AbstractEasyNettyServer) event.getSource();
             Channel channel = creator.getChannel();
             if (ObjectUtil.isNull(channel)) {
                 return;
@@ -108,7 +109,7 @@ public class EasyNettyHelper {
             log.error("easy-netty server failed to stop, connection ID does not exist.");
             return false;
         }
-        EasyNettyServerCreator serverCreator = this.serverCreatorMap.get(channelId).shutdown();
+        AbstractEasyNettyServer serverCreator = this.serverCreatorMap.get(channelId).shutdown();
         this.serverCreatorMap.remove(channelId);
         return serverCreator.isStop();
     }
@@ -119,7 +120,6 @@ public class EasyNettyHelper {
      * @return 停止数量
      */
     public int shutdownServer() {
-        // TODO: 后续可以主动扫描Spring管理的所有Server，统一销毁
         ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
         // 关闭连接与线程组
         this.serverCreatorMap.forEach(((channelId, serverCreator) -> {

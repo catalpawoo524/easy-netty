@@ -1,6 +1,6 @@
 package com.catalpawoo.easynetty.core.events;
 
-import com.catalpawoo.easynetty.core.EasyNettyServerCreator;
+import com.catalpawoo.easynetty.core.AbstractEasyNettyServer;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class EnServerCreateEvent extends ApplicationEvent {
 
-    public EnServerCreateEvent(EasyNettyServerCreator creator) {
+    public EnServerCreateEvent(AbstractEasyNettyServer creator) {
         super(creator);
     }
 

@@ -1,7 +1,6 @@
 package com.catalpawoo.easynetty.starter;
 
 import com.catalpawoo.easynetty.core.EasyNettyServerBuilder;
-import com.catalpawoo.easynetty.core.EasyNettyServerCreator;
 import com.catalpawoo.easynetty.starter.handler.EasyNettyServerBaseHandler;
 import com.catalpawoo.easynetty.core.helper.EasyNettyHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +34,7 @@ public class EasyNettyServerTest implements DisposableBean {
         // 帮助类快速构建
         easyNettyHelper.startServer(easyNettyServerBaseHandler, "/socket", 8082, 1).asShortText();
         // 构造器构建
-        EasyNettyServerCreator buildCreator = new EasyNettyServerBuilder()
+        new EasyNettyServerBuilder()
                 .setPort(8083)
                 .setPath("/socket")
                 .setBossThreadNum(1)

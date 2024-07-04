@@ -46,7 +46,7 @@ Easy-Netty是一个Netty操作简化工具包，为降低开发门槛、提升�
 安装集成Easy-Netty要求如下：
 - JDK 8+
 - SpringBoot 2.0+ 或 SpringBoot 3.0+
-- Maven（后续逐步支持Gradle）
+- Maven 或 Gradle
 
 **（1）SpringBoot 3.0**
 ```html

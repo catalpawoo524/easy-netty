@@ -44,9 +44,19 @@ public class EasyNettyServerAnnotationHandler extends SimpleChannelInboundHandle
      */
     private Method removeMethod;
 
+    /**
+     * 检查参数
+     *
+     * @param method 方法
+     * @return 是否继续执行（false：是，true：否）
+     */
+    private boolean checkParam(Method method) {
+        return ObjectUtil.isNull(serverDO) || ObjectUtil.isNull(method);
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) {
-        if (ObjectUtil.isNull(serverDO) || ObjectUtil.isNull(readMethod)) {
+        if (checkParam(readMethod)) {
             return;
         }
         try {
@@ -58,6 +68,9 @@ public class EasyNettyServerAnnotationHandler extends SimpleChannelInboundHandle
 
     @Override
     public void handlerAdded(ChannelHandlerContext channelHandlerContext) {
+        if (checkParam(addMethod)) {
+            return;
+        }
         if (ObjectUtil.isNull(serverDO) || ObjectUtil.isNull(addMethod)) {
             return;
         }
@@ -70,7 +83,7 @@ public class EasyNettyServerAnnotationHandler extends SimpleChannelInboundHandle
 
     @Override
     public void userEventTriggered(ChannelHandlerContext channelHandlerContext, Object event) {
-        if (ObjectUtil.isNull(serverDO) || ObjectUtil.isNull(triggerMethod)) {
+        if (checkParam(triggerMethod)) {
             return;
         }
         try {
@@ -82,7 +95,7 @@ public class EasyNettyServerAnnotationHandler extends SimpleChannelInboundHandle
 
     @Override
     public void handlerRemoved(ChannelHandlerContext channelHandlerContext) {
-        if (ObjectUtil.isNull(serverDO) || ObjectUtil.isNull(removeMethod)) {
+        if (checkParam(removeMethod)) {
             return;
         }
         try {
