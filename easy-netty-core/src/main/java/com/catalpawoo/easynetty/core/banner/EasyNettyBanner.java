@@ -1,19 +1,32 @@
-package com.catalpawoo.easynetty.spring.banner;
+package com.catalpawoo.easynetty.core.banner;
 
 import com.catalpawoo.easynetty.common.EasyNettyVersion;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import lombok.AllArgsConstructor;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 横幅实现类
- * TODO: YAML禁用输出
+ *
  * @author wuzijing
  * @since 2024-07-04
  */
-public class EasyNettyBanner implements ApplicationRunner {
+@AllArgsConstructor
+public class EasyNettyBanner {
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
+    /**
+     * 横幅开关
+     */
+    private Boolean bannerSwitch;
+
+    /**
+     * 输出横幅
+     */
+    @PostConstruct
+    public void consoleBanner() {
+        if (!bannerSwitch) {
+            return;
+        }
         System.out.println(" _____ ____  ____ ___  _ _      _____ _____ _____ ___  _");
         System.out.println("/  __//  _ \\/ ___\\\\  \\/// \\  /|/  __//__ __Y__ __\\\\  \\//");
         System.out.println("|  \\  | / \\||    \\ \\  / | |\\ |||  \\    / \\   / \\   \\  / ");

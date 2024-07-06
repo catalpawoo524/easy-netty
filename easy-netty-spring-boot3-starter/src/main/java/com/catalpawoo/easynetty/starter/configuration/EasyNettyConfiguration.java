@@ -1,7 +1,10 @@
 package com.catalpawoo.easynetty.starter.configuration;
 
 import com.catalpawoo.easynetty.core.annotation.processor.EasyNettyServerAnnotationProcessor;
+import com.catalpawoo.easynetty.core.banner.EasyNettyBanner;
 import com.catalpawoo.easynetty.core.helper.EasyNettyHelper;
+import com.catalpawoo.easynetty.core.properties.EasyNettyProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +15,9 @@ import org.springframework.context.annotation.Configuration;
  * @since 2024-06-24
  */
 @Configuration
+@EnableConfigurationProperties({
+        EasyNettyProperty.class
+})
 public class EasyNettyConfiguration {
 
     @Bean
@@ -22,6 +28,11 @@ public class EasyNettyConfiguration {
     @Bean
     public EasyNettyServerAnnotationProcessor easyNettyServerAnnotationProcessor() {
         return new EasyNettyServerAnnotationProcessor();
+    }
+
+    @Bean
+    public EasyNettyBanner easyNettyBanner(EasyNettyProperty easyNettyProperty) {
+        return new EasyNettyBanner(easyNettyProperty.getBannerSwitch());
     }
 
 }

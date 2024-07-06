@@ -2,10 +2,11 @@ package com.catalpawoo.easynetty.core;
 
 import com.catalpawoo.easynetty.common.constants.ErrorCodeConstant;
 import com.catalpawoo.easynetty.common.constants.IntegerConstant;
-import com.catalpawoo.easynetty.common.exceptions.EasyNettyException;
 import com.catalpawoo.easynetty.common.utils.ExceptionUtil;
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
 import com.catalpawoo.easynetty.core.events.EnServerCreateEvent;
+import com.catalpawoo.easynetty.core.properties.EasyNettyProperty;
+import com.catalpawoo.easynetty.core.properties.server.EnCreatorProperty;
 import com.catalpawoo.easynetty.spring.utils.SpringUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -53,7 +54,7 @@ public abstract class AbstractEasyNettyServer {
     private void checkParam(Integer port, Integer bossThreadNum) {
         if (ObjectUtil.isNull(port) || ObjectUtil.isNull(bossThreadNum)) {
             // 参数缺失
-            throw ExceptionUtil.create(ErrorCodeConstant.STARTUP_MISSING_PARAMETERS);
+            throw ExceptionUtil.create(ErrorCodeConstant.SERVER_STARTUP_MISSING_PARAMETERS);
         }
         this.bossGroup = new NioEventLoopGroup(bossThreadNum);
         this.workGroup = new NioEventLoopGroup();
@@ -72,13 +73,34 @@ public abstract class AbstractEasyNettyServer {
             channelFuture = serverBootstrap.bind(port).sync();
             channel = channelFuture.sync().channel();
         } catch (Exception error) {
-            throw ExceptionUtil.create(ErrorCodeConstant.STARTUP_PORT_BIND_EXCEPTION);
+            throw ExceptionUtil.create(ErrorCodeConstant.SERVER_STARTUP_PORT_BIND_EXCEPTION);
         }
         if (!channelFuture.isSuccess()) {
-            throw ExceptionUtil.create(ErrorCodeConstant.STARTUP_PORT_BIND_FAILED);
+            throw ExceptionUtil.create(ErrorCodeConstant.SERVER_STARTUP_PORT_BIND_FAILED);
         }
         log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
         SpringUtil.publishEvent(new EnServerCreateEvent(this));
+    }
+
+    /**
+     * 创建Netty服务端启动器
+     *
+     * @param easyNettyServerInitializer 服务初始化类
+     * @return Netty服务端启动器
+     */
+    private ServerBootstrap createBootstrap(EasyNettyServerInitializer easyNettyServerInitializer) {
+        EnCreatorProperty creatorProperty = SpringUtil.getBean(EasyNettyProperty.class).getServer().getCreator();
+        return new ServerBootstrap()
+                .group(this.bossGroup, this.workGroup)
+                .channel(NioServerSocketChannel.class)
+                // 连接请求等待队列大小
+                .option(ChannelOption.SO_BACKLOG, creatorProperty.getSoBacklog())
+                // 快速复用，防止服务端重启端口占用
+                .option(ChannelOption.SO_REUSEADDR, creatorProperty.getSoReuseaddr())
+                // 自定义处理方法
+                .childHandler(easyNettyServerInitializer)
+                // 低延迟
+                .childOption(ChannelOption.TCP_NODELAY, creatorProperty.getTcpNoDelay());
     }
 
     /**
@@ -91,18 +113,7 @@ public abstract class AbstractEasyNettyServer {
      */
     public AbstractEasyNettyServer(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String path, Integer port, Integer bossThreadNum) {
         this.checkParam(port, bossThreadNum);
-        ServerBootstrap serverBootstrap = new ServerBootstrap()
-                .group(this.bossGroup, this.workGroup)
-                .channel(NioServerSocketChannel.class)
-                // 连接请求等待队列大小
-                .option(ChannelOption.SO_BACKLOG, IntegerConstant.ONE_THOUSAND_TWENTY_FOUR)
-                // 快速复用，防止服务端重启端口占用
-                .option(ChannelOption.SO_REUSEADDR, true)
-                // 自定义处理方法
-                .childHandler(new EasyNettyServerInitializer(simpleChannelInboundHandler, path))
-                // 低延迟
-                .childOption(ChannelOption.TCP_NODELAY, true);
-        this.start(serverBootstrap, port, bossThreadNum);
+        this.start(this.createBootstrap(new EasyNettyServerInitializer(simpleChannelInboundHandler, path)), port, bossThreadNum);
     }
 
     /**
@@ -114,18 +125,7 @@ public abstract class AbstractEasyNettyServer {
      */
     public AbstractEasyNettyServer(Integer port, Integer bossThreadNum, EasyNettyServerInitializer easyNettyServerInitializer) {
         this.checkParam(port, bossThreadNum);
-        ServerBootstrap serverBootstrap = new ServerBootstrap()
-                .group(this.bossGroup, this.workGroup)
-                .channel(NioServerSocketChannel.class)
-                // 连接请求等待队列大小
-                .option(ChannelOption.SO_BACKLOG, IntegerConstant.ONE_THOUSAND_TWENTY_FOUR)
-                // 快速复用，防止服务端重启端口占用
-                .option(ChannelOption.SO_REUSEADDR, true)
-                // 自定义处理方法
-                .childHandler(easyNettyServerInitializer)
-                // 低延迟
-                .childOption(ChannelOption.TCP_NODELAY, true);
-        this.start(serverBootstrap, port, bossThreadNum);
+        this.start(this.createBootstrap(easyNettyServerInitializer), port, bossThreadNum);
     }
 
     /**
