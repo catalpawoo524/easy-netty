@@ -1,11 +1,11 @@
-package com.catalpawoo.easynetty.core.properties.server;
+package com.catalpawoo.easynetty.core.properties.client;
 
 import com.catalpawoo.easynetty.core.properties.common.CommonHttpAggregatorProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * HTTP聚合器配置参数类
+ * 协议处理器配置参数类
  *
  * @author wuzijing
  * @since 2024-07-06

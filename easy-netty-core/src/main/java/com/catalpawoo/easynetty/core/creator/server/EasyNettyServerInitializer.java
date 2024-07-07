@@ -1,11 +1,11 @@
-package com.catalpawoo.easynetty.core;
+package com.catalpawoo.easynetty.core.creator.server;
 
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
+import com.catalpawoo.easynetty.core.creator.EasyNettyInitializer;
 import com.catalpawoo.easynetty.core.properties.EasyNettyProperty;
 import com.catalpawoo.easynetty.core.properties.server.EnHttpAggregatorProperty;
 import com.catalpawoo.easynetty.core.properties.server.EnProtocolHandlerProperty;
 import com.catalpawoo.easynetty.spring.utils.SpringUtil;
-import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;
@@ -20,17 +20,7 @@ import io.netty.handler.stream.ChunkedWriteHandler;
  * @author wuzijing
  * @since 2024-06-21
  */
-public class EasyNettyServerInitializer extends ChannelInitializer<SocketChannel> {
-
-    /**
-     * 自定义处理方法
-     */
-    private final SimpleChannelInboundHandler<?> simpleChannelInboundHandler;
-
-    /**
-     * 请求路径
-     */
-    private final String path;
+public class EasyNettyServerInitializer extends EasyNettyInitializer<SocketChannel> {
 
     /**
      * 构造方法
@@ -39,8 +29,7 @@ public class EasyNettyServerInitializer extends ChannelInitializer<SocketChannel
      * @param path                        请求路径
      */
     public EasyNettyServerInitializer(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String path) {
-        this.simpleChannelInboundHandler = simpleChannelInboundHandler;
-        this.path = path;
+        super(simpleChannelInboundHandler, path);
     }
 
     @Override

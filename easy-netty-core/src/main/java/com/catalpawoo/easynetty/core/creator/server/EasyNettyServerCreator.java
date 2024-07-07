@@ -1,4 +1,4 @@
-package com.catalpawoo.easynetty.core;
+package com.catalpawoo.easynetty.core.creator.server;
 
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
 import io.netty.bootstrap.ServerBootstrap;
@@ -31,7 +31,7 @@ public class EasyNettyServerCreator extends AbstractEasyNettyServer {
      *
      * @param port                       端口号
      * @param bossThreadNum              主线程组数量
-     * @param easyNettyServerInitializer 服务初始化类
+     * @param easyNettyServerInitializer 服务端初始化类
      */
     public EasyNettyServerCreator(Integer port, Integer bossThreadNum, EasyNettyServerInitializer easyNettyServerInitializer) {
         super(port, bossThreadNum, easyNettyServerInitializer);
@@ -53,12 +53,7 @@ public class EasyNettyServerCreator extends AbstractEasyNettyServer {
         if (ObjectUtil.isNotNull(this.channel) && this.channel.isOpen()) {
             this.channel.close();
         }
-        if (ObjectUtil.isNotNull(this.bossGroup)) {
-            this.bossGroup.shutdownGracefully();
-        }
-        if (ObjectUtil.isNotNull(this.workGroup)) {
-            this.workGroup.shutdownGracefully();
-        }
+        this.shutdownThreadGroup();
         return this;
     }
 
@@ -67,22 +62,7 @@ public class EasyNettyServerCreator extends AbstractEasyNettyServer {
         if (ObjectUtil.isNotNull(this.bossGroup)) {
             this.bossGroup.shutdownGracefully();
         }
-        if (ObjectUtil.isNotNull(this.workGroup)) {
-            this.workGroup.shutdownGracefully();
-        }
-    }
-
-    @Override
-    public boolean isOpen() {
-        if (ObjectUtil.isNull(this.channel)) {
-            return false;
-        }
-        return this.channel.isOpen();
-    }
-
-    @Override
-    public boolean isStop() {
-        return !this.isOpen();
+        super.shutdownThreadGroup();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.catalpawoo.easynetty.core;
+package com.catalpawoo.easynetty.core.creator.server;
 
 import com.catalpawoo.easynetty.common.builder.Builder;
 import io.netty.channel.SimpleChannelInboundHandler;

@@ -1,6 +1,6 @@
 package com.catalpawoo.easynetty.starter;
 
-import com.catalpawoo.easynetty.core.EasyNettyServerBuilder;
+import com.catalpawoo.easynetty.core.creator.server.EasyNettyServerBuilder;
 import com.catalpawoo.easynetty.core.helper.EasyNettyHelper;
 import com.catalpawoo.easynetty.starter.handler.EasyNettyServerBaseHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class EasyNettyServerTest implements DisposableBean {
 
     @Override
     public void destroy() {
-        int num = easyNettyHelper.shutdownServer();
+        int num = easyNettyHelper.shutdown();
         log.info("easy-netty destroyed quantity: {}", num);
     }
 

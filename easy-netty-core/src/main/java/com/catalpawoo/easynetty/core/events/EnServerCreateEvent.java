@@ -1,6 +1,6 @@
 package com.catalpawoo.easynetty.core.events;
 
-import com.catalpawoo.easynetty.core.AbstractEasyNettyServer;
+import com.catalpawoo.easynetty.core.creator.server.AbstractEasyNettyServer;
 import org.springframework.context.ApplicationEvent;
 
 /**

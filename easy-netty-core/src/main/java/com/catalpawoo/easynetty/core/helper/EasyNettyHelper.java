@@ -1,9 +1,12 @@
 package com.catalpawoo.easynetty.core.helper;
 
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
-import com.catalpawoo.easynetty.core.AbstractEasyNettyServer;
-import com.catalpawoo.easynetty.core.EasyNettyServerCreator;
-import com.catalpawoo.easynetty.core.EasyNettyServerInitializer;
+import com.catalpawoo.easynetty.core.creator.AbstractEasyNetty;
+import com.catalpawoo.easynetty.core.creator.client.AbstractEasyNettyClient;
+import com.catalpawoo.easynetty.core.creator.server.AbstractEasyNettyServer;
+import com.catalpawoo.easynetty.core.creator.server.EasyNettyServerCreator;
+import com.catalpawoo.easynetty.core.creator.server.EasyNettyServerInitializer;
+import com.catalpawoo.easynetty.core.events.EnClientCreateEvent;
 import com.catalpawoo.easynetty.core.events.EnServerCreateEvent;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -29,9 +32,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class EasyNettyHelper {
 
     /**
-     * 服务端集合
+     * 创建器集合
      */
-    private final Map<ChannelId, AbstractEasyNettyServer> serverCreatorMap = new ConcurrentHashMap<>();
+    private final Map<ChannelId, AbstractEasyNetty> creatorMap = new ConcurrentHashMap<>();
 
     /**
      * 服务端创建事件监听
@@ -51,7 +54,29 @@ public class EasyNettyHelper {
             if (ObjectUtil.isNull(channel)) {
                 return;
             }
-            serverCreatorMap.put(channel.id(), creator);
+            creatorMap.put(channel.id(), creator);
+        }
+    }
+
+    /**
+     * 客户端创建事件监听
+     *
+     * @param event 服务端创建事件
+     */
+    @Async
+    @EventListener(EnClientCreateEvent.class)
+    protected void clientCreateListener(EnClientCreateEvent event) {
+        log.info("easy-netty listen to the client creation event.");
+        if (ObjectUtil.isNull(event)) {
+            return;
+        }
+        if (event.getSource() instanceof AbstractEasyNettyClient) {
+            AbstractEasyNettyClient creator = (AbstractEasyNettyClient) event.getSource();
+            Channel channel = creator.getChannel();
+            if (ObjectUtil.isNull(channel)) {
+                return;
+            }
+            creatorMap.put(channel.id(), creator);
         }
     }
 
@@ -99,42 +124,42 @@ public class EasyNettyHelper {
     }
 
     /**
-     * 停止服务端
+     * 停止
      *
      * @param channelId 连接ID
      * @return 停止结果（true：成功，false：失败）
      */
-    public boolean shutdownServer(ChannelId channelId) {
-        if (!this.serverCreatorMap.containsKey(channelId)) {
+    public boolean shutdown(ChannelId channelId) {
+        if (!this.creatorMap.containsKey(channelId)) {
             log.error("easy-netty server failed to stop, connection ID does not exist.");
             return false;
         }
-        AbstractEasyNettyServer serverCreator = this.serverCreatorMap.get(channelId).shutdown();
-        this.serverCreatorMap.remove(channelId);
-        return serverCreator.isStop();
+        AbstractEasyNetty creator = this.creatorMap.get(channelId).shutdown();
+        this.creatorMap.remove(channelId);
+        return creator.isStop();
     }
 
     /**
-     * 停止所有服务端
+     * 停止
      *
      * @return 停止数量
      */
-    public int shutdownServer() {
+    public int shutdown() {
         ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
         // 关闭连接与线程组
-        this.serverCreatorMap.forEach(((channelId, serverCreator) -> {
-            channelGroup.add(serverCreator.getChannel());
-            serverCreator.shutdownThreadGroup();
+        this.creatorMap.forEach(((channelId, creator) -> {
+            channelGroup.add(creator.getChannel());
+            creator.shutdownThreadGroup();
         }));
         channelGroup.close();
         // 检查关闭状态
         Set<ChannelId> closeIdSet = new HashSet<>();
-        this.serverCreatorMap.forEach(((channelId, serverCreator) -> {
+        this.creatorMap.forEach(((channelId, serverCreator) -> {
             if (serverCreator.isStop()) {
                 closeIdSet.add(channelId);
             }
         }));
-        closeIdSet.forEach(this.serverCreatorMap::remove);
+        closeIdSet.forEach(this.creatorMap::remove);
         return closeIdSet.size();
     }
 

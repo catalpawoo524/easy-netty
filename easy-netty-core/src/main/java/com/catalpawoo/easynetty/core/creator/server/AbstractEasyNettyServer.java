@@ -1,21 +1,20 @@
-package com.catalpawoo.easynetty.core;
+package com.catalpawoo.easynetty.core.creator.server;
 
 import com.catalpawoo.easynetty.common.constants.ErrorCodeConstant;
-import com.catalpawoo.easynetty.common.constants.IntegerConstant;
 import com.catalpawoo.easynetty.common.utils.ExceptionUtil;
 import com.catalpawoo.easynetty.common.utils.ObjectUtil;
+import com.catalpawoo.easynetty.core.creator.AbstractEasyNetty;
 import com.catalpawoo.easynetty.core.events.EnServerCreateEvent;
 import com.catalpawoo.easynetty.core.properties.EasyNettyProperty;
 import com.catalpawoo.easynetty.core.properties.server.EnCreatorProperty;
 import com.catalpawoo.easynetty.spring.utils.SpringUtil;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,23 +26,12 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Setter
-public abstract class AbstractEasyNettyServer {
+public abstract class AbstractEasyNettyServer extends AbstractEasyNetty {
 
     /**
      * 接受请求的线程组
      */
     protected NioEventLoopGroup bossGroup;
-
-    /**
-     * 实际工作的线程组
-     */
-    protected NioEventLoopGroup workGroup;
-
-    /**
-     * 当前连接
-     */
-    @Getter
-    protected Channel channel;
 
     /**
      * 检查参数
@@ -67,28 +55,28 @@ public abstract class AbstractEasyNettyServer {
      * @param port            端口
      * @param bossThreadNum   主线程数量
      */
-    private void start(ServerBootstrap serverBootstrap, Integer port, Integer bossThreadNum) {
+    private void start(@NonNull ServerBootstrap serverBootstrap, Integer port, Integer bossThreadNum) {
         ChannelFuture channelFuture;
         try {
             channelFuture = serverBootstrap.bind(port).sync();
             channel = channelFuture.sync().channel();
         } catch (Exception error) {
-            throw ExceptionUtil.create(ErrorCodeConstant.SERVER_STARTUP_PORT_BIND_EXCEPTION);
+            throw ExceptionUtil.create(ErrorCodeConstant.SERVER_STARTUP_PORT_BIND_EXCEPTION, port);
         }
         if (!channelFuture.isSuccess()) {
-            throw ExceptionUtil.create(ErrorCodeConstant.SERVER_STARTUP_PORT_BIND_FAILED);
+            throw ExceptionUtil.create(ErrorCodeConstant.SERVER_STARTUP_PORT_BIND_FAILED, port);
         }
-        log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}", port, bossThreadNum);
+        log.info("easy-netty server started successfully，parameters: port={}，bossThreadNum={}.", port, bossThreadNum);
         SpringUtil.publishEvent(new EnServerCreateEvent(this));
     }
 
     /**
      * 创建Netty服务端启动器
      *
-     * @param easyNettyServerInitializer 服务初始化类
+     * @param easyNettyServerInitializer 服务端初始化类
      * @return Netty服务端启动器
      */
-    private ServerBootstrap createBootstrap(EasyNettyServerInitializer easyNettyServerInitializer) {
+    private ServerBootstrap createBootstrap(@NonNull EasyNettyServerInitializer easyNettyServerInitializer) {
         EnCreatorProperty creatorProperty = SpringUtil.getBean(EasyNettyProperty.class).getServer().getCreator();
         return new ServerBootstrap()
                 .group(this.bossGroup, this.workGroup)
@@ -111,7 +99,7 @@ public abstract class AbstractEasyNettyServer {
      * @param port                        端口号
      * @param bossThreadNum               主线程组数量
      */
-    public AbstractEasyNettyServer(SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String path, Integer port, Integer bossThreadNum) {
+    public AbstractEasyNettyServer(@NonNull SimpleChannelInboundHandler<?> simpleChannelInboundHandler, String path, Integer port, Integer bossThreadNum) {
         this.checkParam(port, bossThreadNum);
         this.start(this.createBootstrap(new EasyNettyServerInitializer(simpleChannelInboundHandler, path)), port, bossThreadNum);
     }
@@ -123,7 +111,7 @@ public abstract class AbstractEasyNettyServer {
      * @param bossThreadNum              主线程组数量
      * @param easyNettyServerInitializer 服务初始化类
      */
-    public AbstractEasyNettyServer(Integer port, Integer bossThreadNum, EasyNettyServerInitializer easyNettyServerInitializer) {
+    public AbstractEasyNettyServer(Integer port, Integer bossThreadNum, @NonNull EasyNettyServerInitializer easyNettyServerInitializer) {
         this.checkParam(port, bossThreadNum);
         this.start(this.createBootstrap(easyNettyServerInitializer), port, bossThreadNum);
     }
@@ -135,35 +123,9 @@ public abstract class AbstractEasyNettyServer {
      * @param bossThreadNum   主线程组数量
      * @param serverBootstrap Netty服务端启动器
      */
-    public AbstractEasyNettyServer(Integer port, Integer bossThreadNum, ServerBootstrap serverBootstrap) {
+    public AbstractEasyNettyServer(Integer port, Integer bossThreadNum, @NonNull ServerBootstrap serverBootstrap) {
         this.checkParam(port, bossThreadNum);
         this.start(serverBootstrap, port, bossThreadNum);
     }
-
-    /**
-     * 关闭方法
-     *
-     * @return 自身
-     */
-    public abstract AbstractEasyNettyServer shutdown();
-
-    /**
-     * 线程组关闭方法
-     */
-    public abstract void shutdownThreadGroup();
-
-    /**
-     * 连接是否开启
-     *
-     * @return 开启状态（true：打开，false：关闭）
-     */
-    public abstract boolean isOpen();
-
-    /**
-     * 连接是否关闭
-     *
-     * @return 关闭状态（true：关闭，false：打开）
-     */
-    public abstract boolean isStop();
 
 }

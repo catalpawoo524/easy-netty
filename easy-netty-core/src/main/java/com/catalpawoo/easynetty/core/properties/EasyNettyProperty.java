@@ -1,5 +1,6 @@
 package com.catalpawoo.easynetty.core.properties;
 
+import com.catalpawoo.easynetty.core.properties.client.EnClientProperty;
 import com.catalpawoo.easynetty.core.properties.server.EnServerProperty;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -23,5 +24,10 @@ public class EasyNettyProperty {
      * 服务端配置
      */
     private EnServerProperty server;
+
+    /**
+     * 客户端配置
+     */
+    private EnClientProperty client;
 
 }
